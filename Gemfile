@@ -11,6 +11,13 @@ gem 'rack-cors'
 # To use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
 
+# Testing tools
+group :development, :test do
+  gem 'rspec-rails', '~> 3.0'
+  gem 'factory_girl_rails'
+  gem 'faker'
+end
+
 # To use Jbuilder templates for JSON
 # gem 'jbuilder'
 
