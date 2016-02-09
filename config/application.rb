@@ -42,5 +42,8 @@ module RailsApi
         request_specs: false
       g.fixture_replacement :factory_girl, dir: "spec/factories"
     end
+
+    # autoload lib directory
+    config.autoload_paths << Rails.root.join('lib')
   end
 end

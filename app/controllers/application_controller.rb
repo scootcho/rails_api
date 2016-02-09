@@ -2,9 +2,8 @@ class AccessDeniedError < StandardError; end
 class NotAuthenticatedError < StandardError; end
 class AuthenticationTimeoutError < StandardError; end
 
-require 'auth_token'
-
 class ApplicationController < ActionController::API
+  before_action :authenticate_request!
 	attr_reader :current_user
 
   # When an error occurs, respond with the proper private method below
