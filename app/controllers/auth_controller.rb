@@ -10,7 +10,7 @@ class AuthController < ApplicationController
     if user
       render json: authentication_payload(user)
     else
-      render json: { errors: ['Invalid username or password'] }, status: :unauthorized
+      render json: { errors: user.errors.full_message }, status: :unauthorized
     end
   end
 
