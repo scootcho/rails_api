@@ -1,4 +1,9 @@
 class UsersController < ApplicationController
+  skip_before_action :authenticate_request!, only: [:create] #only action that can be perform by unauthenticated user
+
+  def index
+    render json: { message: "you're on the welcome page!" }
+  end
 
   def create
     user = User.new(user_params)
