@@ -11,10 +11,45 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160208043149) do
+ActiveRecord::Schema.define(version: 20160210025224) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "companies", force: :cascade do |t|
+    t.string   "name"
+    t.string   "email"
+    t.string   "address"
+    t.string   "city"
+    t.string   "state"
+    t.string   "zipcode"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "licenses", force: :cascade do |t|
+    t.string   "license_type"
+    t.string   "license_number"
+    t.string   "license_address"
+    t.string   "license_zipcode"
+    t.integer  "company_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "licenses", ["company_id"], name: "index_licenses_on_company_id", using: :btree
+
+  create_table "products", force: :cascade do |t|
+    t.string   "name"
+    t.text     "description"
+    t.decimal  "quantity"
+    t.string   "unit_type"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.integer  "company_id"
+  end
+
+  add_index "products", ["company_id"], name: "index_products_on_company_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email"
@@ -23,4 +58,6 @@ ActiveRecord::Schema.define(version: 20160208043149) do
     t.datetime "updated_at",      null: false
   end
 
+  add_foreign_key "licenses", "companies"
+  add_foreign_key "products", "companies"
 end
