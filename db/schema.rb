@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160210025224) do
+ActiveRecord::Schema.define(version: 20160210072120) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,6 +39,29 @@ ActiveRecord::Schema.define(version: 20160210025224) do
 
   add_index "licenses", ["company_id"], name: "index_licenses_on_company_id", using: :btree
 
+  create_table "order_items", force: :cascade do |t|
+    t.integer  "product_id"
+    t.integer  "order_id"
+    t.decimal  "unit_price",  precision: 10, scale: 2
+    t.integer  "quantity"
+    t.decimal  "total_price", precision: 10, scale: 2
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+  end
+
+  add_index "order_items", ["order_id"], name: "index_order_items_on_order_id", using: :btree
+  add_index "order_items", ["product_id"], name: "index_order_items_on_product_id", using: :btree
+
+  create_table "orders", force: :cascade do |t|
+    t.decimal  "subtotal",   precision: 10, scale: 2
+    t.decimal  "tax",        precision: 10, scale: 2
+    t.decimal  "shipping",   precision: 10, scale: 2
+    t.decimal  "total",      precision: 10, scale: 2
+    t.integer  "status"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+  end
+
   create_table "products", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
@@ -56,8 +79,11 @@ ActiveRecord::Schema.define(version: 20160210025224) do
     t.string   "password_digest"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.string   "role"
   end
 
   add_foreign_key "licenses", "companies"
+  add_foreign_key "order_items", "orders"
+  add_foreign_key "order_items", "products"
   add_foreign_key "products", "companies"
 end
