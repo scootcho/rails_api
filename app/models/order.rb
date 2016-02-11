@@ -1,5 +1,6 @@
 class Order < ActiveRecord::Base
 	has_many :order_items
+  belongs_to :company
 
 	validates :subtotal, :tax, :shipping, :total, presence: true
 
@@ -9,7 +10,7 @@ class Order < ActiveRecord::Base
   enum status: [ :cancelled, :in_progress, :completed, :invoiced ]
 
 	def subtotal
-		order_items.each { |item| item.valid? ? (item.quantity * item.price) : 0 }.sum
+		order_items.each { |item| item.valid? ? (item.quantity * item.unit_price) : 0 }.sum
 	end
 	
 	private
