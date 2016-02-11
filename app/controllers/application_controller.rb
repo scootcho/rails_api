@@ -3,7 +3,7 @@ class NotAuthenticatedError < StandardError; end
 class AuthenticationTimeoutError < StandardError; end
 
 class ApplicationController < ActionController::API
-  before_action :authenticate_request!
+  before_action :authenticate_request!, :current_order
 	attr_reader :current_user
 
   # When an error occurs, respond with the proper private method below
@@ -24,6 +24,16 @@ class ApplicationController < ActionController::API
     raise AuthenticationTimeoutError
   rescue JWT::VerificationError, JWT::DecodeError
     raise NotAuthenticatedError
+  end
+
+  def current_order
+    # check if there are open order with current user, we want to assign a different token for user because we don't want the shopping cart to expire compare to auth token
+    # TODO implement this and send back either on the same payload or separate token from the auth token
+    if @current_user.order.nil?
+      @current_order = @current_user.order.build
+    else
+      @current_order = @current_user.order
+    end
   end
 
   private

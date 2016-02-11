@@ -1,3 +1,4 @@
 class Company < ActiveRecord::Base
-  has_many :products, :licenses
+  has_many :products
+  has_many :licenses
 end

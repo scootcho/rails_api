@@ -9,6 +9,7 @@ class UsersController < ApplicationController
     user = User.new(user_params)
 
     if user.save
+      # current_order is Order.new hence its a order object with nil id, this means it can't be referenced. need to figure out a way for this
       render json: { id: user.id, email: user.email }, status: 201
     else
       render json: { error: user.errors.full_messages }, status: 422
