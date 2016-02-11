@@ -6,7 +6,10 @@ class UsersController < ApplicationController
   end
 
   def create
-    user = User.new(user_params)
+    # we're building the user this way to prevent the users from manually manipulating company_id, and ensure all company admin can only create user within its company.
+    company = Company.find(@current_user.company_id)
+    new_user = company.users.build
+    user = new_user.new(user_params)
 
     if user.save
       # current_order is Order.new hence its a order object with nil id, this means it can't be referenced. need to figure out a way for this
