@@ -1,6 +1,5 @@
 class User < ActiveRecord::Base
   has_secure_password
-  has_many :order
   belongs_to :company
 
   validates :company, presence: true
