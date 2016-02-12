@@ -2,8 +2,6 @@ class Order < ActiveRecord::Base
 	has_many :order_items
   belongs_to :company
 
-	validates :subtotal, :tax, :shipping, :total, presence: true
-
 	before_create :set_order_status
 	before_save :update_subtotal
 
